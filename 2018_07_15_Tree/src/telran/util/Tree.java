@@ -1,9 +1,11 @@
 package telran.util;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.function.Predicate;
 
 public class Tree<E> implements Set<E> {
 	
@@ -13,18 +15,16 @@ public class Tree<E> implements Set<E> {
 	
 	public static void main(String[] args) {
 		Tree<Integer> tree = new Tree<Integer>();
-		
-		Integer[] expOriginal = {100, 800, 40, 82, 30, 50, 90, 20, 82, 95, 85};
-		createTree(tree, expOriginal);
-		
-		if(tree.contains((Integer)800)) 
-			System.out.println("true");
-		else 
-			System.out.println("false");
-		
-		for(Object obj: tree) {
-			System.out.print(obj.toString()+" ");
-		}
+		Collection<Integer> col = new Tree<Integer>();
+		Integer[] arr = {100, 80, 40, 30, 20, 50, 82, 90, 85, 95};
+		Integer[] arrCol = {100, 80, 40, 30, 20, 50, 82, 90, 85};
+		createTree(tree, arr);
+		createTree((Tree)col, arrCol);
+		System.out.println("tree - "+Arrays.toString(tree.toArray()));
+		System.out.println("collection - "+Arrays.toString(col.toArray()));
+		tree.removeAll(col);
+		System.out.println("tree - "+Arrays.toString(tree.toArray()));
+		System.out.println("collection - "+Arrays.toString(col.toArray()));
 	}
 	
 	private static void createTree(Tree<Integer> tree, Integer[] array) {
@@ -53,12 +53,7 @@ public class Tree<E> implements Set<E> {
 
 	@Override
 	public boolean contains(Object o) {
-		NodeTree<E> current = root;
-		while(current != null && !o.equals(current.obj)) {
-			current = comp.compare((E) o, current.obj)<0 ? 
-				current.left : current.right;
-		}
-		return current != null;
+		return findNode(o) != null;
 	}
 
 	@Override
@@ -68,8 +63,13 @@ public class Tree<E> implements Set<E> {
 
 	@Override
 	public Object[] toArray() {
-		
-		return null;
+		if(size == 0) return null;
+		Object[] res = new Object[size];
+		int ind = 0;
+		for(E v: this) {
+			res[ind++] = v;
+		}
+		return res;
 	}
 
 	@Override
@@ -111,37 +111,99 @@ public class Tree<E> implements Set<E> {
 
 	@Override
 	public boolean remove(Object o) {
-		
-		return false;
+		boolean res = false;
+		NodeTree<E> node = findNode(o);
+		if(node != null) {
+			if(node.left != null && node.right != null) {
+				removeJunction(node);
+			} else {
+				removeSimpleNode(node);
+			}
+			res = true;
+		}
+		return res;
+	}
+	
+	private void removeJunction(NodeTree<E> node) {
+		NodeTree<E> substitute = getSubstitute(node.right);
+		node.obj = substitute.obj;
+		removeSimpleNode(substitute);
+	}
+	
+	private NodeTree<E> getSubstitute(NodeTree<E> node){
+		while (node.left != null) 
+			node = node.left;
+		return node;
+	}
+	
+	private void removeSimpleNode(NodeTree<E> node) {
+		NodeTree<E> parrent = node.parrent;
+		NodeTree<E> child = node.left == null ? node.right : node.left;
+		if (parrent != null) {
+			if(parrent.left == node) parrent.left = child;
+			if(parrent.right == node) parrent.right = child;
+			if(child != null) child.parrent = parrent;
+		} else {
+			this.root = child;
+			if(child != null) child.parrent = null;
+		}
+		this.size--;
+	}
+	
+	private NodeTree<E> findNode(Object o){
+		NodeTree<E> current = root;
+		while(current != null && !o.equals(current.obj)) {
+			current = comp.compare((E) o, current.obj)<0 ? 
+				current.left : current.right;
+		}
+		return current;
 	}
 
 	@Override
 	public boolean containsAll(Collection<?> c) {
-		
-		return false;
+		NodeTree<E> cur;
+		for(Object curCollObj: c) {
+			cur = findNode(curCollObj);
+			if(cur == null) return false;
+		}
+		return true;
 	}
 
 	@Override
 	public boolean addAll(Collection<? extends E> c) {
-		
-		return false;
+		boolean res = false;
+		for(E curCollObj: c) {
+			add(curCollObj);
+			res = true;
+		}
+		return res;
 	}
 
 	@Override
 	public boolean retainAll(Collection<?> c) {
-		
-		return false;
+		if(c.containsAll(this)) {
+			return false;
+		}
+		removeIf(x->!c.contains(x));
+		return true;
 	}
 
 	@Override
 	public boolean removeAll(Collection<?> c) {
-		
-		return false;
+		if(c.containsAll(this)) {
+			return false;
+		}
+		removeIf(x->c.contains(x));
+		return true;
 	}
-
+	
 	@Override
 	public void clear() {
-		
-
+		removeIf(x -> true);
+		/*for(E obj: this) {
+			remove(obj);
+		}*/
+		this.size = 0;
+		this.root = null;
 	}
 }

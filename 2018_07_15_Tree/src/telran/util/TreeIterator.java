@@ -5,6 +5,7 @@ import java.util.Iterator;
 public class TreeIterator<E> implements Iterator<E> {
 
 	NodeTree<E> current;
+	NodeTree<E> previous;
 	Tree<E> tree;
 	
 	public TreeIterator(Tree<E> tree) {
@@ -26,7 +27,7 @@ public class TreeIterator<E> implements Iterator<E> {
 
 	@Override
 	public E next() {
-		NodeTree<E> res = this.current;
+		previous = this.current;
 		if(current.right != null) {
 			current = getLastNode(current.right);
 		} else {
@@ -35,7 +36,12 @@ public class TreeIterator<E> implements Iterator<E> {
 			}
 			current = current.parrent;
 		}
-		return res.obj;
+		return previous.obj;
+	}
+	
+	@Override
+	public void remove() {
+		tree.remove(previous.obj);
 	}
 	
 

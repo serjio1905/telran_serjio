@@ -10,11 +10,8 @@ public class MyStuck {
 	public void pushNumber(int number) {
 		myStuck.add((Integer) number);
 		Integer max = maxArray.get(maxArray.size - 1);
-		if(maxArray.size == 0 || comp.compare(max, number)<0)
+		if(maxArray.size == 0 || comp.compare(max, number)<=0)
 			maxArray.add(number);
-		else
-			maxArray.add(max);
-			
 	}
 	
 	public Integer popNumber() {
@@ -23,7 +20,9 @@ public class MyStuck {
 		if(myStuck.size() > 0) {
 			res = myStuck.get(s-1);
 			myStuck.remove(s-1);
-			maxArray.remove(s-1);
+			Integer max = getMax();
+			if((int)max == (int)res)
+				maxArray.remove(maxArray.size-1);
 		}
 		return res;
 	}
