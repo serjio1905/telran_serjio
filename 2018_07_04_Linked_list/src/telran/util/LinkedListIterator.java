@@ -24,9 +24,9 @@ public class LinkedListIterator<E> implements Iterator<E> {
 	@Override
 	public E next() {
 		prev = current;
-		if(current == null) 
+		if(current == null) {
 			current = linkedList.head;
-		else 
+		} else 
 			current = current.next;
 		E res = current.object;
 		i++;

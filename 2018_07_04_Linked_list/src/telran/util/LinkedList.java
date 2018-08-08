@@ -43,6 +43,17 @@ public class LinkedList<E> implements List<E> {
 		size++;
 		return false;
 	}
+	
+	public boolean isLoopEnded() {
+		NodeList<E> current = this.head;
+		while(current != null && current.next != null) {
+			boolean curentFlag = current.flag;
+			current.flag = !current.flag;
+			if(curentFlag != current.next.flag) return false;
+			current = current.next;
+		}
+		return true;
+	}
 
 	@Override
 	public void add(int index, E element) {
@@ -65,6 +76,14 @@ public class LinkedList<E> implements List<E> {
 	private NodeList<E> getPreviousNode(int index) {
 		NodeList<E> res = head;
 		for(int i = 0; i < index-1; i++) {
+			res = res.next;
+		}
+		return res;
+	}
+	
+	public NodeList<E> getNode(int index) {
+		NodeList<E> res = head;
+		for(int i = 0; i < index; i++) {
 			res = res.next;
 		}
 		return res;
