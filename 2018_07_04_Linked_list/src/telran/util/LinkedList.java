@@ -54,6 +54,10 @@ public class LinkedList<E> implements List<E> {
 		}
 		return true;
 	}
+	
+	public boolean isLoopEnded1() {
+		return this.tail.next != null ? false : true;
+	}
 
 	@Override
 	public void add(int index, E element) {

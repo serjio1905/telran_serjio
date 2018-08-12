@@ -11,6 +11,4 @@ public class NodeList<E> {
 		this.object = object;
 	}
 	
-	
-	
 }
