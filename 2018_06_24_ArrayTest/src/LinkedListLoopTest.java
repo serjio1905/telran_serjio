@@ -18,10 +18,10 @@ class LinkedListLoopTest {
 		array.add(96);
 		array.add(532);
 		array.add(-58);
-		assertTrue(array.isLoopEnded());
+		assertTrue(array.isLoopEnded1());
 		array.getNode(6).next = array.getNode(4);
-		assertFalse(array.isLoopEnded());
+		assertFalse(array.isLoopEnded1());
 		array.getNode(5).next = null;
-		assertTrue(array.isLoopEnded());
+		assertTrue(array.isLoopEnded1());
 	}
 }
