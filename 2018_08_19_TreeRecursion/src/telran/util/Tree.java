@@ -19,6 +19,7 @@ public class Tree<E> implements Set<E> {
 		Tree<Integer> tree = new Tree<Integer>();
 		Integer[] arr = {100, 80, 40, 30, 20, 50, 82, 90, 85, 95};
 		createTree(tree, arr);
+		tree.balanceTree();
 		tree.printRotated();
 	}
 	
@@ -75,6 +76,7 @@ public class Tree<E> implements Set<E> {
 
 	@Override
 	public boolean add(E e) {
+		//TODO add auto-start balancing if length diff more than 20%
 		if(contains(e)) 
 			return false;
 		NodeTree<E> parent = null;
@@ -90,6 +92,10 @@ public class Tree<E> implements Set<E> {
 		}
 		newNode.parrent = parent;
 		size++;
+		int height = this.height();
+		int optHeight = (int) (Math.log(size) / Math.log(2)) + 1;
+		if (optHeight * 1.2 < height)
+			this.balanceTree();
 		return true;
 	}
 
@@ -236,4 +242,50 @@ public class Tree<E> implements Set<E> {
 			System.out.print(" ");
 		}
 	}
+
+	public Integer width() {
+		return width(root);
+	}
+
+	private Integer width(NodeTree<E> node) {
+		if(node == null) return 0;
+		if(node.left == null && node.right == null) return 1;
+		return width(node.left) + width(node.right);
+	}
+
+	public Integer height() {
+		return height(root, 0);
+	}
+
+	private Integer height(NodeTree<E> node, int i) {
+		if(node == null) return i;
+		i++;
+		return Math.max(height(node.right, i), height(node.left, i));
+	}
+	
+	public void balanceTree() {
+		E[] arr = (E[]) this.toArray();
+		balancing(root, arr);
+	}
+
+	private void balancing(NodeTree<E> node, E[] arr) {
+		int index = arr.length / 2;
+		node.obj = arr[index];
+		if(arr.length > 2) {
+			E[] arrRight = Arrays.copyOfRange(arr, index + 1, arr.length);
+			NodeTree<E> rightNode = new NodeTree<E>(null);
+			node.right = rightNode;
+			rightNode.parrent = node;
+			balancing(rightNode, arrRight);			
+		}
+		if(arr.length > 1) {
+			E[] arrLeft = Arrays.copyOfRange(arr, 0, index);
+			NodeTree<E> leftNode = new NodeTree<E>(null);
+			node.left = leftNode;
+			leftNode.parrent = node;
+			balancing(leftNode, arrLeft);			
+		}
+	}
+	
+
 }

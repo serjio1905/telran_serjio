@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="18_06_06_BitOperation/src"/>
+	<classpathentry kind="src" path="18_06_06_BitOperationTests/src"/>
+	<classpathentry kind="src" path="2018_06_13_ArrayInt/src"/>
+	<classpathentry kind="src" path="2018_06_13ArrayIntTests/src"/>
+	<classpathentry kind="src" path="2018_06_24_Array/src"/>
+	<classpathentry kind="src" path="2018_06_24_ArrayTest/src"/>
+	<classpathentry kind="src" path="2018_07_04_Linked_list/src"/>
+	<classpathentry kind="src" path="2018_07_15_Tree/src"/>
+	<classpathentry kind="src" path="2018_07_15_TreeTest/src"/>
+	<classpathentry kind="src" path="2018_07_15_TreeTestNew/src"/>
+	<classpathentry kind="src" path="2018_07_25_MyStuckTest/src"/>
+	<classpathentry kind="src" path="2018_07_29_HashTable/src"/>
+	<classpathentry kind="src" path="2018_08_01_Strings/src"/>
+	<classpathentry kind="src" path="2018_08_04_LimitedQuenueTest/src"/>
+	<classpathentry kind="src" path="2018_08_05_Calculator/src"/>
+	<classpathentry kind="src" path="2018_08_05_StringsExpressions/src"/>
+	<classpathentry kind="src" path="2018_08_08_PerfomanceLettersRemove/src"/>
+	<classpathentry kind="src" path="2018_08_08_PerfomanceStringsJoin/src"/>
+	<classpathentry kind="src" path="2018_08_12_Cipher/src"/>
+	<classpathentry kind="src" path="2018_08_12_Recursion/src"/>
+	<classpathentry kind="src" path="2018_08_19_FileSystem/src"/>
+	<classpathentry kind="src" path="2018_08_19_TreeRecursion/src"/>
+	<classpathentry kind="output" path="18_06_06_BitOperationTests/bin"/>
+</classpath>

@@ -56,11 +56,11 @@ class SetTest {
 	
 	@Test
 	void width() {
-		assertEquals(4, set.width());
+		assertEquals(4, (int)set.width());
 	}
 
 	@Test
 	void height() {
-		assertEquals(4, set.height());
+		assertEquals(5, (int)set.height());
 	}
 }

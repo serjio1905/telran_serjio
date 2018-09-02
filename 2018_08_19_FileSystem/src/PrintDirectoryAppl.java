@@ -17,15 +17,35 @@ public class PrintDirectoryAppl {
 			return;
 		}
 		printDir(dir);
-		// use "listFile" -> array of objects
 	}
 
 	private static void printDir(File dir) {
-		//TODO with spaces, using recursion
 		File content[] = dir.listFiles();
-		for(int i = 0; i < content.length; i++) {
-			System.out.println(content[i]);
-		}
+		System.out.println(dir.toString()+"\n");
+		printTree(content, 0, 0);
 	}
 
+	private static void printTree(File content[], int i, int space_count) {
+		if(i == content.length) return;
+		String space = "";
+		for(int s = 0; s < space_count; s++) {
+			space += "    ";
+		}
+		System.out.println(space + content[i].getName());
+		if(content[i].isDirectory()) {
+			printTree(content[i].listFiles(), 0, space_count + 1);
+		}
+		i++;
+		printTree(content, i, space_count);
+		
+		
+//		if(content[i].isDirectory()) {
+//			System.out.println(content[i].getName());
+//			printTree(content[i].listFiles(), 0);
+//		} else {
+//			System.out.println(content[i].getName());
+//			i++;
+//			printTree(content, i);
+//		}
+	}
 }
